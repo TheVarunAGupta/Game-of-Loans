@@ -1,0 +1,230 @@
+/*--Cards--*/
+.card {
+    background-color: var(--bg-accent);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+/*--Buttons--*/
+.button {
+    background-color: var(--highlight);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: var(--bg-primary);
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.button:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
+    transform: translateY(-2px);
+}
+
+/* Trades Table */
+.trades-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.trades-table th, .trades-table td {
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.trades-table tbody tr:nth-child(even) {
+    background-color: rgba(255,255,255,0.05);
+}
+
+.trades-table thead {
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-accent);
+}
+
+/* Tags for Buy/Sell */
+.tag {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.tag.buy {
+    background-color: #2e7d32;
+    color: white;
+}
+
+.tag.sell {
+    background-color: #c62828;
+    color: white;
+}
+
+/* Collapsible details */
+details {
+    margin-bottom: 15px;
+}
+
+details summary {
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+/* Sidebar Cards */
+.sidebar-card {
+    margin-bottom: 20px;
+}
+
+.strategy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.strategy-card {
+    padding: 15px;
+}
+
+.strategy-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.metric-box {
+    margin-top: 10px;
+    background-color: var(--highlight);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.metric-box p {
+    color: var(--bg-primary) !important;   /* force text to match button */
+}
+
+/* --- Toggle Switch Button --- */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 70px;  /* slightly wider for text space */
+    height: 30px;
+    background-color: #c62828; /* default OFF = red */
+    border-radius: 50px;
+    border: 2px solid var(--bg-accent);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.toggle-switch:hover {
+    transform: scale(1.05); /* subtle hover feedback */
+}
+
+.toggle-switch::before {
+    content: "Off";
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: var(--text-primary);
+    transition: all 0.3s;
+}
+
+.toggle-switch.active {
+    background-color: #2e7d32; /* ON = green */
+}
+
+.toggle-switch.active::before {
+    content: "On";
+    left: auto;
+    right: 12px;
+}
+
+/* --- Card Header Layout --- */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.strategy-dropdown {
+    width: 250px !important;  /* adjust to desired width */
+}
+/* Main dropdown box (control) */
+.strategy-dropdown .Select-control,
+.strategy-dropdown .Select {
+    background-color: var(--highlight) !important;  /* same as button */
+    color: var(--bg-primary) !important;           /* text colour same as button */
+    border-radius: 12px !important;                /* more rounded corners */
+    border: none !important;                        /* remove default border */
+}
+
+/* Dropdown menu (the list) */
+.strategy-dropdown .Select-menu-outer {
+    background-color: var(--highlight) !important; /* same dark highlight */
+    border-radius: 12px !important;                /* rounded corners for menu */
+}
+
+/* Individual option items */
+.strategy-dropdown .VirtualizedSelectOption {
+    background-color: var(--highlight) !important; /* match menu background */
+    color: var(--bg-primary) !important;           /* text colour */
+}
+
+/* Hover / focused option */
+.strategy-dropdown .VirtualizedSelectFocusedOption {
+    background-color: var(--highlight) !important;  /* keep same as menu */
+    color: var(--text-primary) !important;          /* text changes on hover */
+}
+
+/* Placeholder text */
+.strategy-dropdown .Select-placeholder {
+    color: var(--bg-primary) !important;
+}
+
+/* Container for each input */
+.input-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+/* Label style */
+.input-label {
+    color: var(--text-secondary);      /* same as your button text or main text */
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Input field style */
+.text-input {
+    background-color: var(--highlight);  /* same dark colour as button */
+    color: var(--bg-primary);            /* text colour */
+    border: none;                        /* removes default white border */
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 14px;
+}
+
+/* Optional: focus style */
+.text-input:focus {
+    outline: 2px solid var(--bg-primary);
+}

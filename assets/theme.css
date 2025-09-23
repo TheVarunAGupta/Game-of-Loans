@@ -1,0 +1,15 @@
+/*--Theme Colours--*/
+:root {
+    --bg-primary: #01161E;     /* Main dark background */
+    --bg-accent: #124559;      /* Panels, navbar */
+    --highlight: #598392;      /* Buttons, active/hover */
+    --text-secondary: #AEC3B0; /* Muted text */
+    --text-primary: #EFF6E0;   /* Main readable text */
+}
+/*--General--*/
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+}

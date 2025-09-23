@@ -1,0 +1,122 @@
+
+🧩 HIGH-LEVEL OVERVIEW
+
+User
+ │
+ │   [Run Backtest] or [Run Live Test]
+ ▼
+interface/dashboard.py
+ └── Parses user input / triggers test
+     └── Calls → core/strategy_runner.py
+         ├── Initialises data (history or live)
+         ├── Loads strategy (from /strats)
+         ├── Prepares bar cache
+         └── Feeds bars → strategy
+             └── Executes trades → data/broker.py
+                 └── Records fills / positions
+
+🗂 COMPONENT BREAKDOWN
+✅ interface/dashboard.py
+Your controller.
+    Allows user to:
+        Select strategy
+        Choose symbol(s)
+        Start backtest or live test
+    Sends those choices to strategy_runner.py
+
+✅ core/strategy_runner.py
+Your orchestrator. Key responsibilities:
+    Load strategy class from /strats
+    Tell data/history.py or data/live.py to fetch data
+    Feed bars to the strategy’s on_bar() method
+    Handle warm-up checks (strategy.ready())
+    Send orders to data/broker.py
+    Collect and return results (metrics, logs, etc.)
+It may delegate control to:
+    backtester.py for replaying historical bars
+    live_simulator.py for minute-by-minute live feeding
+
+✅ core/backtester.py
+    Fetches full bar history
+    Steps through bars one by one
+    At each step:
+        Update bar cache
+        Call strategy.on_bar(bar)
+        If order is returned, send it to broker
+
+✅ core/live_simulator.py
+    On start:
+        Fetch last N bars from data/history.py (for warm-up)
+        Then subscribe to live feed via data/live.py
+    At each new bar:
+        Update cache
+        Call strategy.on_bar(bar)
+        Handle order execution
+
+✅ data/history.py
+    Pulls historical bars from Alpaca or file
+    Used by backtester and live mode (for warm-up)
+
+✅ data/live.py
+    Subscribes to Alpaca’s 15-minute-delayed stream
+    Yields bars to live_sim.py
+
+✅ data/cache.py (you can add this)
+    Stores most recent bars per symbol and timeframe
+    API: get_last_n_bars(symbol, timeframe, n)
+    Ensures strategies always get proper history
+
+✅ data/broker.py (your broker_sim.py)
+    Receives orders from strategy
+    Simulates fills
+    Tracks positions, portfolio value, cash, etc.
+
+✅ strats/base.py
+    Base class: BaseStrategy
+    Required methods:
+        on_bar(bar)
+        ready()
+        required_warmup_bars()
+
+✅ strats/your_strategy.py
+    Your concrete implementation
+    Uses price action, indicators, etc.
+    Returns orders from on_bar() when ready
+
+✅ core/metrics.py
+    Computes and stores:
+        PnL
+        Sharpe ratio
+        Drawdowns
+        Win/loss rate
+    Called by runner at each step or at end
+
+🔄 FLOW: BACKTEST MODE
+    User triggers backtest
+    dashboard.py calls strategy_runner.run_backtest(...)
+    strategy_runner:
+        Loads strategy
+        Gets historical bars from data/history.py
+        Passes data to backtester
+    backtester:
+        Replays each bar
+        Updates cache
+        Sends bar to strategy
+        Sends order to broker if needed
+    Metrics and logs collected
+
+🔄 FLOW: LIVE TEST MODE
+    User triggers live test
+    dashboard.py calls strategy_runner.run_live(...)
+    strategy_runner:
+        Loads strategy
+        Calls data/history.py to fetch N warm-up bars
+        Starts live_simulator
+    live_simulator:
+        Pre-fills cache with history
+        Starts delayed live stream
+        For each new bar:
+            Updates cache
+            Sends bar to strategy
+            Sends order to broker
+    Simulated fills and metrics tracked in real time

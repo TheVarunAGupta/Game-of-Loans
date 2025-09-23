@@ -1,0 +1,9 @@
+What I want the end goal of this project to be:
+- main page being the live trading with the current pnl graph and other metrics to the side
+- main page maybe the metrics on the side has each strategy ranked based on the performance of that metric
+- main page has a list of all the current strategies saved and are able to toggle them on and off (each toggle on and off will be a new 'life' of that strategy)
+- a page which contains all the current strategies and I am able to modify them
+- a backtesting page which has a list of the current strategies saved and I am able to toggle them on and off to be backtested that time
+- backtesting page is able to change the backtesting period, symbol, and how much starting capital
+- in the middle like the live testing page it has a pnl graph, it shows all the pnls of each strategy that has been toggled on as well as the snp baseline
+- backtesting page like the live testing will have (maybe if you scroll down) a summary of each strategy and each of its metrics
