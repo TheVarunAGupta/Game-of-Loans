@@ -50,14 +50,3 @@ class DataFetcher:
             return TimeFrame(value, TimeFrameUnit.Month)
         else:
             raise ValueError('Unsupported time unit. Use Min, Hour, Day, Week, or Month.')
-
-    # def get_tradable_symbols(self):
-    #     # Fetch all tradable assets
-    #     assets = self.historical.get_assets()
-    #     tradable_symbols = [asset.symbol for asset in assets if asset.tradable]
-    #     return tradable_symbols
-        
-# if __name__ == '__main__':
-#     datafetcher = DataFetcher()
-#     fetched_symbols = datafetcher.get_tradable_symbols()
-#     print(fetched_symbols)

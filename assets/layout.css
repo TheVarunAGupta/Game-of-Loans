@@ -9,7 +9,7 @@
 /*--Headings--*/
 .page-content h1 {
     color: var(--text-primary);
-    margin-bottom: 20px; /* space between H1 and main-layout */
+    margin-bottom: 20px;
     font-size: 28px;
     font-weight: bold;
 }

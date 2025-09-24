@@ -29,14 +29,12 @@ class LiveStrategyManager:
         return results
 
     async def run_all(self):
-        # await asyncio.gather(*(runner.run() for runner in self.runners))
         active_runners = [r['runner'].run() for r in self.runners if r['running']]
         if active_runners:
             try:
                 await asyncio.gather(*active_runners)
             except Exception as e:
                 print('Exception in run_all', e)
-
 
     def clear_all(self):
         self.runners = []

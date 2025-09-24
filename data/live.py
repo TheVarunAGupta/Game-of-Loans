@@ -47,7 +47,6 @@ class LiveFeeder:
         else:
             columns = ['timestamp', 'symbol', 'open', 'high', 'low', 'close', 'volume']
             self.df = pd.concat([self.df, pd.DataFrame([bar_dict], columns=columns)], ignore_index=True)
-        # print('\n[DEBUG] Current DataFrame:\n', self.df.tail(3))
 
     def _update_current_bar(self, symbol, price, size, timestamp):
         ts = pd.to_datetime(timestamp)

@@ -35,8 +35,6 @@ class LiveSimulator:
     async def handle_trade(self, trade):
         # print(f'[DEBUG] Trade received → {trade.symbol} | Price:{trade.price} Size:{trade.size} Time:{trade.timestamp}')
         self.feed.handle_trade(trade)
-        # ts, price = trade.timestamp, trade.price
-        # self.broker.metrics.record(ts, {trade.symbol: price})
         signal = self.strategy.generate_signals(self.feed.df.to_dict('records'))
         if signal:
             ts, price, action, allocation = signal
@@ -48,16 +46,3 @@ class LiveSimulator:
 
     def get_broker(self):
         return self.broker     
-
-if __name__ == '__main__':
-    print('THIS IS RUNNING')
-    feeder = LiveFeeder(timeframe='3Min')
-    symbol = 'AAPL'
-    live_sim = LiveSimulator(feeder)
-
-    print(f'[DEBUG] Subscribing to {symbol} bars and trades')
-    live_sim.stream.subscribe_bars(live_sim.handle_bar, symbol)
-    live_sim.stream.subscribe_trades(live_sim.handle_trade, symbol)
-
-    print('[DEBUG] Starting stream')
-    live_sim.stream.run()

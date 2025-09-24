@@ -6,7 +6,6 @@ class Broker:
         self.starting_balance = starting_balance
         self.cash = starting_balance
         self.positions = {} # {symbol: {'quantity': x, 'avg_price': y}}
-        # self.trade_history = pd.DataFrame(columns=['timestamp', 'symbol', 'side', 'price', 'quantity'])
         self.trade_history = pd.DataFrame({
             'timestamp': pd.Series(dtype='datetime64[ns]'),
             'symbol': pd.Series(dtype='str'),
@@ -46,12 +45,10 @@ class Broker:
         self.trade_history = pd.concat([self.trade_history, new_trade], ignore_index=True)
         self.metrics.update_cash(self.cash)
         self.metrics.update_positions(self.positions.copy())
-        # self.metrics.record(timestamp, {symbol: price})
         # print(f'BUY {quantity} {symbol} @ {price:.2f}')
 
     def sell(self, symbol, price, allocation_percent=None, quantity=None, timestamp=None):
         if symbol not in self.positions:
-            # print('No position to sell')
             return
         
         pos_qty = self.positions[symbol]['quantity']
@@ -85,7 +82,6 @@ class Broker:
         self.trade_history = pd.concat([self.trade_history, new_trade], ignore_index=True)
         self.metrics.update_cash(self.cash)
         self.metrics.update_positions(self.positions.copy())
-        # self.metrics.record(timestamp, {symbol: price})    
         # print(f'SELL {quantity} {symbol} @ {price:.2f}')
 
     def get_metrics(self):

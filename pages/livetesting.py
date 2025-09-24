@@ -1,17 +1,15 @@
-from dash import html, dcc, Input, Output, State, ctx, dash, dash_table, callback, ALL, MATCH
+from dash import html, dcc, Input, Output, State, callback, ALL
 import main
 import plotly.graph_objects as go
-import asyncio
 
-# background_task = None
 layout = html.Div(className="page-content", children=[
     dcc.Store(id="live-results", data={}),
     dcc.Store(id="lt-sync", data={}),
 
     html.H1("Live Testing", className="page-title", style={
         "position": "absolute",
-        "top": "60px",          # adjust to match navbar height
-        "left": "25px",         # align with navbar/content
+        "top": "60px",
+        "left": "25px",
         "margin": "0",
         "color": "#EFF6E0",
         "z-index": "100"
@@ -19,13 +17,13 @@ layout = html.Div(className="page-content", children=[
 
     dcc.Interval(
         id="live-update-interval",
-        interval=5 * 1000,   # every 60 seconds
+        interval=5 * 1000, # Update every 5 seconds
         n_intervals=0
     ),
 
     html.Div(className="main-layout", children=[
 
-        # ===== LEFT: Main Content =====
+        # === LEFT: Main Content ===
         html.Div(className="main-content", children=[
 
             # PNL Graph
@@ -86,12 +84,11 @@ layout = html.Div(className="page-content", children=[
                 ])
             ]),
         ]),
-        # ===== RIGHT: Sidebar =====
+        # === RIGHT: Sidebar ===
         html.Div(className="sidebar", children=[
 
-            # --- Controls Card ---
+            # === Controls Card ===
             html.Div(className="card sidebar-card", children=[
-                # Header row: title + toggle
                 html.Div(
                     className="card-header",
                     style={"display": "flex", "justify-content": "space-between", "align-items": "center"},
@@ -153,7 +150,7 @@ layout = html.Div(className="page-content", children=[
                 ])
             ]),
 
-            # --- Active Strategies Section ---
+            # === Active Strategies Section ===
             html.Div(
                 className="strategy-list",
                 children=[
@@ -179,24 +176,7 @@ layout = html.Div(className="page-content", children=[
     ])
 ])
 
-# Sync strategy toggles to backend active_strategies immediately
-@callback(
-    Output("lt-sync", "data"),
-    Input({"type": "toggle", "index": ALL}, "n_clicks"),
-    State({"type": "toggle", "index": ALL}, "id"),
-    prevent_initial_call=True
-)
-def sync_strategy_toggles(n_clicks_list, toggle_ids):
-    n_clicks_list = n_clicks_list or []
-    toggle_ids = toggle_ids or []
-    active = []
-    for tid, clicks in zip(toggle_ids, n_clicks_list):
-        if clicks and clicks % 2 == 1:
-            active.append(tid.get("index"))
-    main.set_active_strategies(active)
-    return {"active_strategies": active}
-
-# === Run Livetest and Sync Page ===
+# === Run Livetest ===
 @callback(
     Output("live-results", "data"),
     Input({"type": "lt-toggle", "index": "livetest"}, "n_clicks"),
@@ -207,7 +187,7 @@ def sync_strategy_toggles(n_clicks_list, toggle_ids):
     prevent_initial_call=True
 )
 
-def sync_and_run(n_clicks_live, symbol, balance, timeframe, strategy_clicks):
+def run_livetest(n_clicks_live, symbol, balance, timeframe, strategy_clicks):
     is_active = (n_clicks_live % 2 == 1) if n_clicks_live else False
 
     strategy_names = main.list_strategy_names()
@@ -216,14 +196,12 @@ def sync_and_run(n_clicks_live, symbol, balance, timeframe, strategy_clicks):
         if clicks and clicks % 2 == 1
     ]
 
-    # Just update global state
     main.live_running = is_active
     main.set_active_strategies(active_strategies)
     main.current_symbol = symbol
     main.current_balance = balance
     main.current_timeframe = timeframe
 
-    # If toggled OFF, stop the single running strategy
     if not is_active:
         main.stop_live()
         return {"running": False, "strategies": []}
@@ -333,8 +311,8 @@ def update_live_trades(n_intervals, filter_value):
 
 # === Update Metrics ===
 @callback(
-    Output({"type": "strategy-summary", "index": ALL}, "children"),  # use ALL instead of MATCH
-    Input("live-update-interval", "n_intervals"),                    # trigger on interval
+    Output({"type": "strategy-summary", "index": ALL}, "children"),
+    Input("live-update-interval", "n_intervals"),
     prevent_initial_call=False
 )
 
@@ -364,7 +342,7 @@ def update_live_metrics(n_intervals):
 
     return summaries
 
-# Hydrate toggle visuals from backend state on load
+# === Update Toggle Visuals ===
 @callback(
     Output({"type": "toggle", "index": ALL}, "className", allow_duplicate=True),
     Output({"type": "lt-toggle", "index": ALL}, "className", allow_duplicate=True),
@@ -372,10 +350,26 @@ def update_live_metrics(n_intervals):
     prevent_initial_call='initial_duplicate'
 )
 
-def hydrate_toggle_visuals(n_intervals):
+def update_toggle_visuals(n_intervals):
     strategy_names = main.list_strategy_names()
     active = set(main.get_active_strategies())
     strat_classes = ["toggle-switch active" if name in active else "toggle-switch" for name in strategy_names]
     run_class = ["toggle-switch active" if main.live_running else "toggle-switch"]
     return strat_classes, run_class
 
+# === Sync Strategy Toggles ===
+@callback(
+    Output("lt-sync", "data"),
+    Input({"type": "toggle", "index": ALL}, "n_clicks"),
+    State({"type": "toggle", "index": ALL}, "id"),
+    prevent_initial_call=True
+)
+def sync_strategy_toggles(n_clicks_list, toggle_ids):
+    n_clicks_list = n_clicks_list or []
+    toggle_ids = toggle_ids or []
+    active = []
+    for tid, clicks in zip(toggle_ids, n_clicks_list):
+        if clicks and clicks % 2 == 1:
+            active.append(tid.get("index"))
+    main.set_active_strategies(active)
+    return {"active_strategies": active}

@@ -5,7 +5,7 @@ strategy_names = main.list_strategy_names()
 layout = html.Div([
     # Stores
     dcc.Store(id='strategies-init', data='load'),
-    dcc.Store(id='current-mode', data='idle'),  # idle | add | edit
+    dcc.Store(id='current-mode', data='idle'),
     dcc.Store(id='editing-strat-name', data=None),
 
     html.Div(className='main-layout', children=[
@@ -19,7 +19,7 @@ layout = html.Div([
             'z-index': '100'
         }),
 
-        # ===== LEFT: Strategy List / Management =====
+        # === LEFT: Strategy List / Management ===
         html.Div(className='main-content', style={'flex': '1'}, children=[
 
             # Add New Strategy button
@@ -28,7 +28,7 @@ layout = html.Div([
                 html.Button('Add New', className='button', id='add-strategy-btn')
             ]),
 
-            # Strategy List (dynamic)
+            # Strategy List
             html.Div(id='strategy-list', children=[
                 html.Div(className='card strategy-card', children=[
                     html.Div(className='strategy-header', children=[
@@ -42,7 +42,7 @@ layout = html.Div([
             ])
         ]),
 
-        # ===== RIGHT: Code Editor =====
+        # === RIGHT: Code Editor ===
         html.Div(className='sidebar', style={'flex': '1'}, children=[
             html.Div(className='card', children=[
                 html.H3('Strategy Code'),
@@ -60,7 +60,7 @@ layout = html.Div([
                         'border': '1px solid #124559'
                     }
                 ),
-                # Buttons
+                # === Buttons ===
                 html.Div(
                     style={'margin-top': '10px', 'text-align': 'right', 'display': 'flex', 'gap': '10px'},
                     children=[

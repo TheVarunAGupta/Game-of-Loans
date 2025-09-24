@@ -1,5 +1,4 @@
 from data.history import DataFetcher
-# from strats.mean_reversion import MeanReversionStrategy
 from core.broker import Broker
 import pandas as pd
 import numpy as np
@@ -75,9 +74,3 @@ class BackTester:
             trade_history['timestamp'] = trade_history['timestamp'].apply(lambda x: x[1])
             
         return pnl_history, trade_history, summary
-
-# if __name__ == '__main__':
-#     strategy = MeanReversionStrategy(moving_average_window=10, threshold=0.005)
-#     backtester = BackTester(strategy)
-
-#     backtester.run('AAPL', '4Min', '2023-01-03', '2023-01-06')
