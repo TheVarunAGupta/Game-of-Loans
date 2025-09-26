@@ -331,10 +331,10 @@ def update_trades_table(backtest_data, filter_value, toggle_classes):
             rows.append(html.Tr([
                 html.Td(strat),
                 html.Td(log.get('symbol', '')),
-                html.Td(html.Span(log.get('side', ''), className=f'tag {log.get('side','').lower()}')),
+                html.Td(html.Span(log.get('side', ''), className=f'tag {log.get("side","").lower()}')),
                 html.Td(str(pd.to_datetime(log.get('timestamp', '')).strftime('%Y-%m-%d %H:%M'))),
-                html.Td(f'${log.get('price', ''):,.2f}'),
-                html.Td(f'{log.get('quantity', 0):,.4f}')
+                html.Td(f'${log.get("price", ""):,.2f}'),
+                html.Td(f'{log.get("quantity", 0):,.4f}')
             ]))
 
     return options, filter_value, rows
@@ -363,16 +363,16 @@ def update_metrics(backtest_data, toggle_classes):
         if results and name in results and 'summary' in results[name]:
             summary = results[name]['summary']
             summaries.append([
-                html.P(f'Final Cash: ${summary.get('Final Cash')}'),
-                html.P(f'Portfolio Value: ${summary.get('Portfolio Value')}'),
-                html.P(f'Realised PnL: ${summary.get('Realised PnL')}'),
-                html.P(f'Unrealised PnL: ${summary.get('Unrealised PnL')}'),
-                html.P(f'Total Return %: {summary.get('Total Return %')}'),
-                html.P(f'Trades Executed: {summary.get('Trades Executed')}'),
-                html.P(f'Win Rate %: {summary.get('Win Rate %')}'),
-                html.P(f'Sharpe Ratio: {summary.get('Sharpe Ratio')}'),
-                html.P(f'Max Drawdown %: {summary.get('Max Drawdown %')}'),
-                html.P(f'Profit Factor: {summary.get('Profit Factor')}')
+                html.P(f'Final Cash: ${summary.get("Final Cash")}'),
+                html.P(f'Portfolio Value: ${summary.get("Portfolio Value")}'),
+                html.P(f'Realised PnL: ${summary.get("Realised PnL")}'),
+                html.P(f'Unrealised PnL: ${summary.get("Unrealised PnL")}'),
+                html.P(f'Total Return %: {summary.get("Total Return %")}'),
+                html.P(f'Trades Executed: {summary.get("Trades Executed")}'),
+                html.P(f'Win Rate %: {summary.get("Win Rate %")}'),
+                html.P(f'Sharpe Ratio: {summary.get("Sharpe Ratio")}'),
+                html.P(f'Max Drawdown %: {summary.get("Max Drawdown %")}'),
+                html.P(f'Profit Factor: {summary.get("Profit Factor")}')
             ])
         else:
             summaries.append([
