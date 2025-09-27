@@ -40,16 +40,16 @@ python app.py
 ![Live-testing](screenshots/Livetesting.png)
 
 ### Live-testing controls panel
-![Live-testing controls](screenshots/Livetesting controls panel.png)
+![Live-testing controls](screenshots/Livetesting-controls-panel.png)
 
 ### Backtesting dashboard
 ![Backtesting](screenshots/Backtesting.png)
 
 ### Backtesting controls panel
-![Backtesting controls](screenshots/Backtesting controls panel.png)
+![Backtesting controls](screenshots/Backtesting-controls-panel.png)
 
 ### Backtesting metrics panel
-![Backtesting metrics](screenshots/Backtesting metrics panel.png)
+![Backtesting metrics](screenshots/Backtesting-metrics-panel.png)
 
 ### Strategies dashboard
 ![Strategies](screenshots/Strategies.png)
